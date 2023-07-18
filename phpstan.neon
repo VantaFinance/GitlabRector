@@ -1,0 +1,41 @@
+parameters:
+	level: 9
+	tmpDir: var
+	paths:
+		- src
+	parallel:
+	    maximumNumberOfProcesses: 4
+	exceptions:
+	    implicitThrows: true
+	    check:
+	        tooWideThrowType: true
+	disallowedFunctionCalls:
+	    -
+	        function: 'dump()'
+	        message: 'use some logger instead'
+
+	    -
+	       function: 'dd()'
+	       message: 'use some logger instead'
+
+	    -
+	       function: 'die'
+	       message: 'use some logger instead'
+
+	    -
+	       function: 'var_dump()'
+	       message:  'use some logger instead'
+
+	ergebnis:
+	    noParameterWithNullDefaultValue:
+	        enabled: false
+	    noParameterWithNullableTypeDeclaration:
+	        enabled: false
+	    noNullableReturnTypeDeclaration:
+	        enabled: false
+	    noConstructorParameterWithDefaultValue:
+	        enabled: false
+	    noExtends:
+	        enabled: false
+	    noParameterWithContainerTypeDeclaration:
+	        enabled: false
