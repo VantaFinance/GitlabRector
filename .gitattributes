@@ -1,0 +1,8 @@
+fixture                    export-ignore
+rector.php                 export-ignore
+phpstan.neon               export-ignore
+Makefile                   export-ignore
+phpunit.xml.dist           export-ignore
+tests                      export-ignore
+.php-cs-fixer.dist.php     export-ignore
+.github                    export-ignore
