@@ -59,10 +59,12 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
             }
 
             foreach ($processResult->getFileDiffs() as $fileDiff) {
-                $changeLogs = array_combine($this->createRectorChangelogLines($fileDiff), $fileDiff->getRectorChanges());
+                $logs = $this->createRectorChangelogLines($fileDiff);
 
-                foreach ($changeLogs as $rule => $log) {
-                    $line = $log->jsonSerialize()['line'];
+                foreach ($fileDiff->getRectorChanges() as $change) {
+                    $rule = $logs[$change->getRectorClass()];
+                    $line = $change->jsonSerialize()['line'];
+
 
                     yield new Report(
                         $rule,
@@ -83,7 +85,7 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
 
 
     /**
-     * @return array<int, non-empty-string>
+     * @return array<class-string, non-empty-string>
      */
     private function createRectorChangelogLines(FileDiff $fileDiff): array
     {
@@ -93,8 +95,8 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
         foreach ($rectorsChangelogs as $rectorClass => $changelog) {
             $rectorShortClass = (string) Strings::after($rectorClass, '\\', -1);
             /** @var non-empty-string $line */
-            $line                     = $changelog === null ? $rectorShortClass : $rectorShortClass . ' (' . $changelog . ')';
-            $rectorsChangelogsLines[] = $line;
+            $line                                 = $changelog === null ? $rectorShortClass : $rectorShortClass . ' (' . $changelog . ')';
+            $rectorsChangelogsLines[$rectorClass] = $line;
         }
 
         return $rectorsChangelogsLines;
