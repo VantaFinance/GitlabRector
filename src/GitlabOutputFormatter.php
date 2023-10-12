@@ -44,7 +44,7 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
     public function report(ProcessResult $processResult, Configuration $configuration): void
     {
         $bufferJsonEncoder = new BufferJsonEncoder(function () use ($processResult) {
-            foreach ($processResult->getErrors() as $systemError) {
+            foreach ($processResult->getSystemErrors() as $systemError) {
                 $path      = $systemError->getRelativeFilePath();
                 $beginLine = $systemError->getLine();
                 /** @var non-empty-string $message */
