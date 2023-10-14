@@ -10,6 +10,7 @@
 
 declare(strict_types=1);
 
+use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface;
 use Rector\Config\RectorConfig;
 use Rector\EarlyReturn\Rector\If_\ChangeNestedIfsToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
@@ -23,13 +24,8 @@ return static function (RectorConfig $config): void {
 
     $config->cacheDirectory('var');
 
-    $config->services()
-        ->defaults()
-        ->autowire()
-        ->autoconfigure()
-
-        ->set(GitlabOutputFormatter::class)
-    ;
+    $config->bind(GitlabOutputFormatter::class);
+    $config->tag(GitlabOutputFormatter::class, [OutputFormatterInterface::class]);
 
     $config->rules([
         ChangeNestedIfsToEarlyReturnRector::class,
