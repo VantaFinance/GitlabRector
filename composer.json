@@ -26,7 +26,7 @@
   },
   "require": {
     "php": "^8.2",
-    "rector/rector": "^1.0",
+    "rector/rector": "^1.0.1",
     "nette/utils": "^4.0",
     "violet/streaming-json-encoder": "^1.1"
   },
