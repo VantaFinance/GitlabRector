@@ -23,7 +23,7 @@ return RectorConfig::configure()
     )
     ->withTypeCoverageLevel(10)
     ->withDeadCodeLevel(10)
-     ->withPreparedSets(codeQuality: true, codingStyle: true)
+    ->withPreparedSets(codeQuality: true, codingStyle: true)
     ->withAttributesSets(symfony: true, doctrine: true)
     ->withPaths([
         __DIR__ . '/src',
