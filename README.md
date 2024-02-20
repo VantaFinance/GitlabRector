@@ -6,6 +6,33 @@
 2. edit config rector.php and add GitlabOutputFormatter
 
 
+### Config if rector >= 1.0.1
+```php
+<?php
+
+declare(strict_types=1);
+use Rector\Config\RectorConfig;
+use Vanta\Integration\Rector\GitlabOutputFormatter;
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface;
+
+return RectorConfig::configure()
+    ->withCache(
+        cacheClass: FileCacheStorage::class,
+        cacheDirectory: 'var'
+    )
+    ->withTypeCoverageLevel(10)
+    ->withDeadCodeLevel(10)
+     ->withPreparedSets(codeQuality: true, codingStyle: true)
+    ->withAttributesSets(symfony: true, doctrine: true)
+    ->withPaths([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
+    ->registerService(GitlabOutputFormatter::class, 'gitlab', OutputFormatterInterface::class)
+
+```
+
 
 ### Config if rector >=0.18
 
