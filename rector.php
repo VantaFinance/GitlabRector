@@ -2,30 +2,28 @@
 
 declare(strict_types=1);
 
-use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface;
 use Rector\Config\RectorConfig;
 use Rector\EarlyReturn\Rector\If_\ChangeNestedIfsToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
-use Rector\Set\ValueObject\SetList;
 use Vanta\Integration\Rector\GitlabOutputFormatter;
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface;
 
-return static function (RectorConfig $config): void {
-    $config->paths([
+return RectorConfig::configure()
+    ->withCache(
+        cacheDirectory: 'var',
+        cacheClass: FileCacheStorage::class
+    )
+    ->withTypeCoverageLevel(10)
+    ->withDeadCodeLevel(10)
+    ->withPreparedSets(codeQuality: true, codingStyle: true)
+    ->withAttributesSets(symfony: true, doctrine: true)
+    ->withPaths([
         __DIR__ . '/fixture',
-    ]);
-
-    $config->cacheDirectory('var');
-
-    $config->bind(GitlabOutputFormatter::class);
-    $config->tag(GitlabOutputFormatter::class, [OutputFormatterInterface::class]);
-
-    $config->rules([
+    ])
+    ->withRules([
         ChangeNestedIfsToEarlyReturnRector::class,
         RemoveAlwaysElseRector::class,
-    ]);
-
-
-    $config->sets([
-        SetList::CODE_QUALITY,
-    ]);
-};
+    ])
+    ->registerService(GitlabOutputFormatter::class, 'gitlab', OutputFormatterInterface::class)
+;
