@@ -89,7 +89,9 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
         $rectorShortClasses = [];
 
         foreach ($fileDiff->getRectorClasses() as $rectorClass) {
-            $rectorShortClasses[$rectorClass] = (string) Strings::after($rectorClass, '\\', -1);
+            /** @var non-empty-string $value */
+            $value                            = (string) Strings::after($rectorClass, '\\', -1);
+            $rectorShortClasses[$rectorClass] = $value;
         }
 
         return $rectorShortClasses;
