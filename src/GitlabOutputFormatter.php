@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Vanta\Integration\Rector;
 
 use Nette\Utils\Strings;
-use Rector\ChangesReporting\Annotation\RectorsChangelogResolver;
 use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface as OutputFormatter;
 use Rector\ValueObject\Configuration;
 use Rector\ValueObject\ProcessResult;
@@ -30,7 +29,6 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
     public const NAME = 'gitlab';
 
     public function __construct(
-        private RectorsChangelogResolver $rectorsChangelogResolver,
         private Severity $errorsSeverity = Severity::CRITICAL,
         private Severity $diffSeverity = Severity::BLOCKER,
     ) {
@@ -65,7 +63,6 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
                     $rule = $logs[$change->getRectorClass()];
                     $line = $change->jsonSerialize()['line'];
 
-
                     yield new Report(
                         $rule,
                         $rule,
@@ -89,16 +86,14 @@ final readonly class GitlabOutputFormatter implements OutputFormatter
      */
     private function createRectorChangelogLines(FileDiff $fileDiff): array
     {
-        $rectorsChangelogs      = $this->rectorsChangelogResolver->resolveIncludingMissing($fileDiff->getRectorClasses());
-        $rectorsChangelogsLines = [];
+        $rectorShortClasses = [];
 
-        foreach ($rectorsChangelogs as $rectorClass => $changelog) {
-            $rectorShortClass = (string) Strings::after($rectorClass, '\\', -1);
-            /** @var non-empty-string $line */
-            $line                                 = $changelog === null ? $rectorShortClass : $rectorShortClass . ' (' . $changelog . ')';
-            $rectorsChangelogsLines[$rectorClass] = $line;
+        foreach ($fileDiff->getRectorClasses() as $rectorClass) {
+            /** @var non-empty-string $value */
+            $value                            = (string) Strings::after($rectorClass, '\\', -1);
+            $rectorShortClasses[$rectorClass] = $value;
         }
 
-        return $rectorsChangelogsLines;
+        return $rectorShortClasses;
     }
 }
