@@ -33,7 +33,7 @@
   },
   "require-dev": {
     "symfony/var-dumper": "^6.3",
-    "phpstan/phpstan": "2.0.4",
+    "phpstan/phpstan": "^2.0",
     "spaze/phpstan-disallowed-calls": "4.0.1",
     "phpstan/extension-installer": "1.4.3",
     "friendsofphp/php-cs-fixer": "3.68.5"
