@@ -25,17 +25,3 @@ parameters:
 	    -
 	       function: 'var_dump()'
 	       message:  'use some logger instead'
-
-	ergebnis:
-	    noParameterWithNullDefaultValue:
-	        enabled: false
-	    noParameterWithNullableTypeDeclaration:
-	        enabled: false
-	    noNullableReturnTypeDeclaration:
-	        enabled: false
-	    noConstructorParameterWithDefaultValue:
-	        enabled: false
-	    noExtends:
-	        enabled: false
-	    noParameterWithContainerTypeDeclaration:
-	        enabled: false
